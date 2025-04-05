@@ -50,7 +50,7 @@ const MindMap = () => {
           </ReactFlow>
         </Box>
       </Box>
-
+      
       <Transcript />
     </Box>
   );

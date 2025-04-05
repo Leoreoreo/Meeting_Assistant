@@ -12,6 +12,7 @@ const Transcript = () => {
   const [videoSrc, setVideoSrc] = useState(null);
   const [currentTranscript, setCurrentTranscript] = useState('');
   const videoRef = useRef(null);
+  const transcriptRef = useRef(null);  // Reference to the TextField for scrolling
 
   const handleVideoUpload = (event) => {
     const file = event.target.files[0];
@@ -57,14 +58,24 @@ const Transcript = () => {
     };
   }, [videoSrc]);
 
+  useEffect(() => {
+    // Scroll to the bottom of the TextField when the transcript updates
+    const textField = transcriptRef.current;
+    if (textField) {
+      textField.scrollTop = textField.scrollHeight;
+    }
+  }, [currentTranscript]); // Trigger scroll when the transcript changes
+
   if (!browserSupportsSpeechRecognition) {
     return <span>Your browser does not support speech recognition.</span>;
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', padding: 2, borderTop: '1px solid #ddd', backgroundColor: 'white' }}>
-      <Box sx={{ width: '50%', padding: 1, backgroundColor: 'white' }}>
-        <Typography variant="h6" gutterBottom sx={{ color: 'black' }}>Video Player</Typography>
+    <Box sx={{ display: 'flex', height: "40vh", flexDirection: 'row', padding: 2, borderTop: '1px solid #ddd', backgroundColor: 'white', overflow: 'hidden' }}>
+      
+      {/* Video Section on the Left */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', padding: 1, backgroundColor: 'white', overflow: 'hidden', height: '95%' }}>
+        <Typography variant="h6" gutterBottom sx={{ color: 'black', textAlign: 'center' }}>Video Player</Typography>
         {!videoSrc && (
           <>
             <input
@@ -93,19 +104,20 @@ const Transcript = () => {
           </>
         )}
         {videoSrc && (
-          <video ref={videoRef} controls width="100%">
+          <video ref={videoRef} controls width="100%" style={{ height: '100%', objectFit: 'contain' }}>
             <source src={videoSrc} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         )}
       </Box>
-
-      <Box sx={{ width: '50%', padding: 1, backgroundColor: 'white' }}>
-        <Typography variant="h6" gutterBottom sx={{ color: 'black' }}>Real-time Transcript</Typography>
+  
+      {/* Transcript Section on the Right */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', padding: 1, backgroundColor: 'white', overflow: 'hidden', height: '100%' }}>
+        <Typography variant="h6" gutterBottom sx={{ color: 'black', textAlign: 'center' }}>Real-time Transcript</Typography>
         <TextField
           value={currentTranscript}
           multiline
-          rows={12}
+          rows={7}  // Shrink the height of the transcript field
           fullWidth
           variant="outlined"
           InputProps={{
@@ -123,10 +135,13 @@ const Transcript = () => {
               color: 'black',
             },
           }}
+          inputRef={transcriptRef}  // Reference to scroll the TextField
         />
       </Box>
+  
     </Box>
   );
+  
 };
 
 export default Transcript;
