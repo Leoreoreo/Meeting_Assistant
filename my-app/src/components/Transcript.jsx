@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Box, TextField, Typography } from '@mui/material';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { transcriptData } from './videotranscript';
+import { transcriptData } from '../videotranscript';
 
 const Transcript = () => {
   const {
