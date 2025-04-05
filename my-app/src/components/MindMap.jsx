@@ -6,7 +6,8 @@ import { Box, Paper, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import InputKeywords from './InputKeywords';
 import Transcript from './Transcript';
-import jsonData from '../data/nodesAndEdges.json';
+// import jsonData from '../data/nodesAndEdges.json';
+import { getOpenAIResponse } from '../data/callOpenai';
 
 // Custom node with right-side handle
 const RightHandleNode = ({ data }) => {
@@ -44,6 +45,48 @@ const RightHandleNode = ({ data }) => {
   );
 };
 
+const convertToFlow = (data) => {
+  const nodes = [];
+  const edges = [];
+
+  // Track vertical positions per depth to stack siblings
+  const levelYTracker = {};
+
+  const traverse = (item, parentId = null, depth = 0) => {
+    const nodeId = item.id.toString();
+
+    // Determine Y based on how many nodes are already on this level
+    if (!levelYTracker[depth]) levelYTracker[depth] = 0;
+    const y = levelYTracker[depth] * 120;
+    const x = depth * 300;
+    levelYTracker[depth] += 1;
+
+    // Create node
+    nodes.push({
+      id: nodeId,
+      type: 'rightHandle',
+      data: { label: item.label, transcript: item.transcript || '' },
+      position: { x, y },
+    });
+
+    // Create edge
+    if (parentId) {
+      edges.push({
+        id: `e${parentId}-${nodeId}`,
+        source: parentId.toString(),
+        target: nodeId,
+      });
+    }
+
+    // Traverse children
+    if (item.children && item.children.length > 0) {
+      item.children.forEach((child) => traverse(child, nodeId, depth + 1));
+    }
+  };
+
+  data.forEach((item) => traverse(item));
+  return { nodes, edges };
+};
 
 const nodeTypes = {
   rightHandle: RightHandleNode,
@@ -56,29 +99,97 @@ const MindMap = () => {
   const [time, setTime] = useState(0); // State to hold time
   const [selectedTranscript, setSelectedTranscript] = useState('');
   const [open, setOpen] = useState(false);
+  const [structuredData, setStructuredData] = useState([]);
+
+  // useEffect(() => {
+  //   // Filter entries from jsonData where the item's time is <= current time
+  //   const visibleItems = jsonData.filter(item => item.time <= time);
+  
+  //   // Build nodes and edges arrays
+  //   const newNodes = visibleItems.map(item => ({
+  //     ...item.node,
+  //     type: 'rightHandle'
+  //   }));
+  
+  //   const newEdges = visibleItems
+  //     .map(item => item.edge)
+  //     .filter(edge => Object.keys(edge).length > 0); // Remove empty edge objects
+  
+  //   setNodes(newNodes);
+  //   setEdges(newEdges);
+  // }, [time]);
 
   useEffect(() => {
-    // Filter entries from jsonData where the item's time is <= current time
-    const visibleItems = jsonData.filter(item => item.time <= time);
-  
-    // Build nodes and edges arrays
-    const newNodes = visibleItems.map(item => ({
-      ...item.node,
-      type: 'rightHandle'
-    }));
-  
-    const newEdges = visibleItems
-      .map(item => item.edge)
-      .filter(edge => Object.keys(edge).length > 0); // Remove empty edge objects
-  
-    setNodes(newNodes);
-    setEdges(newEdges);
-  }, [time]);
+    if (time % 5 !== 4) 
+      return;
+    // console.log('Current Transcript:', transcript);
+    // Call OpenAI API when transcript changes
+    const prompt = `
+      You are a dynamic mind map generator for a meeting's contents.
+      You will receive an existing mind map and an updated version of transcript.
+      Your task is to generate an updated mind map based on the transcript.
+      Mind map format, original mind map, and updated transcript are provided below.
+      ------------------------------------------\n
+      <Mind Map Format: start>:\n
+      [
+        {
+          id: int (Node ID),
+          label: string (Topic, should be a very brief title),
+          children: [
+            {
+              id: int (Node ID),
+              label: string (Sub Topic, should be a very brief summary),
+              transcript: "This is the portion of transcript for Sub Topic 1",
+            },
+            {
+              id: int (Node ID),
+              label: string (Sub Topic, should be a very brief summary),
+              transcript: "This is the portion of transcript for Sub Topic 2",
+            }
+          ]
+        }
+      ]
+      <Mind Map Format: end>\n
+      --------------------------------------------\n
+      <Original Mind Map: start>:
+      ${JSON.stringify(structuredData)}
+      <Original Mind Map: end>\n
+      --------------------------------------------\n
+      <Updated Meeting Transcript: start>:
+      ${transcript}
+      <Original Meeting Transcript: end>\n
+      --------------------------------------------\n
+      <Note>:
+      1. DO NOT CHANGE the existing mind map structure (you can edit the transcript, but not label of leaves).
+      2. You DON'T have to make a change. If the updated part of transcript is not related to the meeting at all, please return the original mind map.
+      3. You CAN change the labels of the root node, or add new root nodes when suitable.
+      4. If a leaf node has a very long transcript, you can split it into multiple sub-nodes.
+      4. Return ONLY the JSON format mind map (list of dictionary).
+    `;
+    try {
+      const ProcessTranscript = async () => {
+        const data = await getOpenAIResponse(prompt);
+        console.log('Processed Transcript:\n', data);
+        if (!data || data.length === 0) {
+          console.error('No data returned from OpenAI API');
+          return;
+        }
+        const parsed = JSON.parse(data);
+        setStructuredData(parsed);
+        const { nodes: newNodes, edges: newEdges } = convertToFlow(parsed);
+        setNodes(newNodes);
+        setEdges(newEdges);
+      };
+      ProcessTranscript();
+    }
+    catch (error) {
+      console.error('Error structurelizing transcript:', error);
+    }
+  }, [transcript]);
 
   const handleNodeClick = (event, node) => {
-    const entry = jsonData.find(item => item.node.id === node.id);
-    if (entry && entry.transcript) {
-      setSelectedTranscript(entry.transcript);
+    if (node?.data?.transcript) {
+      setSelectedTranscript(node.data.transcript);
       setOpen(true);
     }
   };
