@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Paper, Button } from '@mui/material';
 import { getOpenAIResponse } from '../data/callOpenai';
 
-const PredictedOutput = ({ keywords, transcript, predict }) => {
+const PredictedOutput = ({ keywords, transcript, predict, setPredict }) => {
   const [prediction, setPrediction] = useState(' ');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -45,6 +45,7 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
     };
 
     fetchPrediction();
+    setPredict(false); // Reset 'predict' state after prediction is made
   }, [keywords, transcript, predict]); // Re-run the request when keywords, transcript, or predict changes
 
   useEffect(() => {

@@ -133,7 +133,7 @@ const InputKeywords = ({ transcript }) => {
       </Box>
 
       {/* Predicted Output below the keywords */}
-      <PredictedOutput keywords={keywords} transcript={transcript} predict={predict} />
+      <PredictedOutput keywords={keywords} transcript={transcript} predict={predict} setPredict={setPredict}/>
     </Box>
   );
 };
