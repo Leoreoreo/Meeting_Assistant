@@ -3,7 +3,7 @@ import { Box, TextField, Typography, Button, Paper } from '@mui/material';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { transcriptData } from '../data/videotranscript';
 
-const Transcript = ({ setTranscript }) => {
+const Transcript = ({ setTime, setTranscript }) => {
   const {
     transcript,
     browserSupportsSpeechRecognition,
@@ -37,6 +37,7 @@ const Transcript = ({ setTranscript }) => {
 
     const handleTimeUpdate = () => {
       const currentTime = Math.floor(video.currentTime);
+      setTime(currentTime);
       const visibleTranscript = transcriptData
         .filter(line => line.time <= currentTime)
         .map(line => line.text)
