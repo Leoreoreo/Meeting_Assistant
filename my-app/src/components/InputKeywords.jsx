@@ -1,5 +1,5 @@
 // src/components/InputKeywords.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { Box, TextField, Typography, Chip, Button, Paper } from '@mui/material';
 import PredictedOutput from './PredictedOutput'; // Import the new component
 
@@ -31,6 +31,10 @@ const InputKeywords = ({ transcript }) => {
     setPredict(true); // Set to true to trigger prediction
   };
 
+  useEffect(() => {
+    console.log('Keywords:', keywords);
+  }, [keywords]); // Log whenever the keywords change
+
   // useEffect(() => {
   //   console.log('Current Transcript:', transcript);
   // }, [transcript]);  // Log whenever the transcript changes
@@ -50,7 +54,7 @@ const InputKeywords = ({ transcript }) => {
         rows={2}  // Shrinking the height of the input block
         value={input}
         onChange={handleInputChange}
-        onKeyPress={handleKeyPress} // Detect "Enter" key press
+        onKeyDown={handleKeyPress} // Detect "Enter" key press
         sx={{
           marginBottom: 2,
           backgroundColor: '#fff', // Make the input field white for contrast
@@ -85,13 +89,22 @@ const InputKeywords = ({ transcript }) => {
               key={index}
               label={keyword}
               variant="outlined"
+              onDelete={() =>
+                setKeywords((prev) => prev.filter((_, i) => i !== index))
+              }
               sx={{
                 backgroundColor: 'white',
                 color: '#333',
                 border: '1px solid #ccc',
-                borderRadius: '16px',
+                borderRadius: '10px',
                 boxShadow: 1,
-                padding: '6px 12px',
+                padding: '1px 1px',
+                '& .MuiChip-deleteIcon': {
+                  color: '#888',
+                  '&:hover': {
+                    color: '#000',
+                  },
+                },
               }}
             />
           ))}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, use } from 'react';
 import { ReactFlow, ReactFlowProvider, Background, Controls, Handle, Position } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import Draggable from 'react-draggable';
 import { Dialog, DialogTitle, DialogContent } from '@mui/material';
 import { Box, Paper, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';

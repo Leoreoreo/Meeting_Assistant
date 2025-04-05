@@ -1,11 +1,9 @@
-// src/components/PredictedOutput.jsx
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Paper } from '@mui/material';
+import { Box, Typography, Paper, Button } from '@mui/material';
 import { getOpenAIResponse } from '../data/callOpenai';
 
-
 const PredictedOutput = ({ keywords, transcript, predict }) => {
-  const [prediction, setPrediction] = useState('');
+  const [prediction, setPrediction] = useState('dummy');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -21,7 +19,7 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
       try {
         // Use environment variable to access the API key
         const prompt = `Provided with the following keywords given by the user: ${keywords.join(', ')} and the transcript of the meeting: "${transcript}", imagine you are the user, use first person to express your views. Limit your output within 3 sentences.`;
-        console.log('Prompt:', prompt); // Log the prompt for debugging
+        // console.log('Prompt:', prompt);
         const data = await getOpenAIResponse(prompt);
         setPrediction(data);
       } catch (err) {
@@ -37,24 +35,63 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
 
   useEffect(() => {
     console.log('Prediction:', prediction);
-    }, [prediction]); // Log the prediction whenever it changes
-  useEffect(() => {
-    if (predict) {
-      // Reset 'predict' state after prediction is made
-      setPrediction('');
+  }, [prediction]); // Log the prediction whenever it changes
+
+//   useEffect(() => {
+//     if (predict) {
+//       // Reset 'predict' state after prediction is made
+//       setPrediction('');
+//     }
+//   }, [predict]);
+
+  // Function to speak the prediction text
+  const handleSpeak = () => {
+    if (prediction) {
+      const speech = new SpeechSynthesisUtterance(prediction);
+      speech.lang = 'en-US';  // You can change the language here if needed
+      window.speechSynthesis.speak(speech);
     }
-  }, [predict]);
+  };
 
   return (
     <Box sx={{ padding: 0, marginTop: 2 }}>
-        {loading && <Typography>Loading...</Typography>}
-        {error && <Typography color="error">{error}</Typography>}
-        {prediction && (
-            <Paper sx={{ paddingX: 2, backgroundColor: 'rgb(205, 163, 250)', height: '15vh', overflowY: 'auto' }}>
-            <Typography variant="h6" color='white'>I want to say:</Typography>
-            <Typography color='white'>{prediction}</Typography>
-            </Paper>
-        )}
+      {loading && <Typography color='black'>Loading...</Typography>}
+      {error && <Typography color="error">{error}</Typography>}
+      {prediction && (
+        <Paper 
+            sx={{
+            display: 'flex',
+            flexDirection: 'column', // Stack the content vertically
+            justifyContent: 'center', // Center content vertically
+            alignItems: 'center', // Center content horizontally
+            backgroundColor: 'rgb(205, 163, 250)',
+            maxHeight: '15vh',
+            overflowY: 'auto',
+            textAlign: 'center', // Ensure text is centered inside the Box
+            }}
+        >
+            <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleSpeak}
+                sx={{
+                    display: 'flex',
+                    backgroundColor: 'rgb(175, 116, 239)',
+                    color: 'white',
+                    marginTop: 12,
+                    '&:hover': {
+                        backgroundColor: 'rgb(133, 62, 208)',
+                    },
+                }}
+                >
+                Speak
+            </Button>
+            
+            <Typography color='white' sx={{ marginTop: 1 }}>
+                {prediction}
+            </Typography>
+        </Paper>
+    )}
     </Box>
   );
 };
