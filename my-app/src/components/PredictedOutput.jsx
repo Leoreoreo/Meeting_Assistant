@@ -21,7 +21,7 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
 
       try {
         // Use environment variable to access the API key
-        const prompt = `Given the following keywords: ${keywords.join(', ')} and the transcript of the meeting: "${transcript}", what is the user's intention?`;
+        const prompt = `Provided with the following keywords given by the user: ${keywords.join(', ')} and the transcript of the meeting: "${transcript}", imagine you are the user, use first person to express your views. Limit your output within 3 sentences.`;
         console.log('Prompt:', prompt); // Log the prompt for debugging
         const data = await getOpenAIResponse(prompt);
         setPrediction(data);
@@ -52,7 +52,7 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
         {error && <Typography color="error">{error}</Typography>}
         {prediction && (
             <Paper sx={{ padding: 2, backgroundColor: '#f5f5f5', height: '20vh', overflowY: 'auto' }}>
-            <Typography variant="h6">Predicted User Intention:</Typography>
+            <Typography variant="h6">User's View:</Typography>
             <Typography>{prediction}</Typography>
             </Paper>
         )}
