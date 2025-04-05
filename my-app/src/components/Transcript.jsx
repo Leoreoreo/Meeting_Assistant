@@ -129,12 +129,12 @@ const Transcript = ({ setTime, setTranscript }) => {
   
       {/* Transcript Section on the Right */}
       <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', padding: 1, backgroundColor: 'white', height: '80%' }}>
-        <Paper sx={{ padding: 2, backgroundColor: '#f5f5f5', height: '20vh', overflowY: 'auto' }}>
+        <Paper sx={{ padding: 2, backgroundColor: '#f5f5f5', height: '20vh' }}>
           <Typography variant="h6" gutterBottom sx={{ color: 'black', textAlign: 'center' }}>Transcript</Typography>
           <TextField
             value={currentTranscript}
             multiline
-            rows={3}  // Shrink the height of the transcript field
+            rows={2}  // Shrink the height of the transcript field
             fullWidth
             variant="outlined"
             sx={{
