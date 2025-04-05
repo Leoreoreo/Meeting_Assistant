@@ -1,6 +1,6 @@
 // src/components/InputKeywords.jsx
 import React, { useState, useEffect } from 'react';
-import { Box, TextField, Typography, Chip, Button } from '@mui/material';
+import { Box, TextField, Typography, Chip, Button, Paper } from '@mui/material';
 import PredictedOutput from './PredictedOutput'; // Import the new component
 
 const InputKeywords = ({ transcript }) => {
@@ -60,29 +60,43 @@ const InputKeywords = ({ transcript }) => {
       />
 
       {/* Display keywords in a horizontal row with scroll */}
-      <Box sx={{
-        marginTop: 2,
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: 1, // Space between keywords
-        overflowX: 'auto', // Horizontal scroll when needed
-        paddingBottom: 2,
-      }}>
-        {keywords.map((keyword, index) => (
-          <Chip
-            key={index}
-            label={keyword}
-            variant="outlined"
-            sx={{
-              backgroundColor: '#e0e0e0',
-              color: '#333',
-              border: '1px solid #ccc',
-              borderRadius: '16px',
-              padding: '6px 12px',
-            }}
-          />
-        ))}
-      </Box>
+      <Paper
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: 2,
+          backgroundColor: '#f5f5f5',
+          height: '15vh',  // Fixed height
+          overflowY: 'auto',  // Vertical scroll when the content overflows
+          borderRadius: '8px',  // Optional: rounded corners for Paper
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 1, // Space between keywords
+            overflowX: 'auto', // Horizontal scroll when needed
+            paddingBottom: 2,
+          }}
+        >
+          {keywords.map((keyword, index) => (
+            <Chip
+              key={index}
+              label={keyword}
+              variant="outlined"
+              sx={{
+                backgroundColor: '#e0e0e0',
+                color: '#333',
+                border: '1px solid #ccc',
+                borderRadius: '16px',
+                padding: '6px 12px',
+              }}
+            />
+          ))}
+        </Box>
+      </Paper>
+
 
       {/* Button to trigger prediction */}
       <Box sx={{ marginTop: 2 }}>
@@ -90,6 +104,14 @@ const InputKeywords = ({ transcript }) => {
           variant="contained"
           color="primary"
           onClick={handlePredictClick}
+          sx={{
+            backgroundColor: 'black',
+            color: 'white',
+            fontSize: '1rem',
+            '&:hover': {
+              backgroundColor: '#555', // grey-ish
+            },
+          }}
           disabled={keywords.length === 0} // Disable if no keywords entered
         >
           Predict
