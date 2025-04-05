@@ -1,6 +1,7 @@
 // src/components/InputKeywords.jsx
 import React, { useState, useEffect } from 'react';
-import { Box, TextField, Typography, Chip } from '@mui/material';
+import { Box, TextField, Typography, Chip, Button } from '@mui/material';
+import PredictedOutput from './PredictedOutput'; // Import the new component
 
 const InputKeywords = ({ transcript }) => {
   // State to store the user's input
@@ -8,6 +9,9 @@ const InputKeywords = ({ transcript }) => {
   
   // State to store the list of keywords entered by the user
   const [keywords, setKeywords] = useState([]);
+  
+  // State to control when prediction should be triggered
+  const [predict, setPredict] = useState(false);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -22,15 +26,20 @@ const InputKeywords = ({ transcript }) => {
     }
   };
 
-  useEffect(() => {
-    console.log('Current Transcript:', transcript);
-  }, [transcript]);  // Log whenever the transcript changes
+  // Trigger prediction on button click
+  const handlePredictClick = () => {
+    setPredict(true); // Set to true to trigger prediction
+  };
+
+  // useEffect(() => {
+  //   console.log('Current Transcript:', transcript);
+  // }, [transcript]);  // Log whenever the transcript changes
 
   return (
-    <Box sx={{ width: '300px', padding: 2, borderRight: '1px solid #ddd', backgroundColor: 'white'}}>
-        <Typography variant="h6" gutterBottom sx={{ color: '#333' }}>
+    <Box sx={{ width: '300px', padding: 2, borderRight: '1px solid #ddd', backgroundColor: 'white' }}>
+      <Typography variant="h6" gutterBottom sx={{ color: '#333' }}>
         Express yourself with keywords!
-        </Typography>
+      </Typography>
 
       {/* TextField for input */}
       <TextField
@@ -49,7 +58,7 @@ const InputKeywords = ({ transcript }) => {
           boxShadow: 1,
         }}
       />
-      
+
       {/* Display keywords in a horizontal row with scroll */}
       <Box sx={{
         marginTop: 2,
@@ -74,6 +83,21 @@ const InputKeywords = ({ transcript }) => {
           />
         ))}
       </Box>
+
+      {/* Button to trigger prediction */}
+      <Box sx={{ marginTop: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handlePredictClick}
+          disabled={keywords.length === 0} // Disable if no keywords entered
+        >
+          Predict
+        </Button>
+      </Box>
+
+      {/* Predicted Output below the keywords */}
+      <PredictedOutput keywords={keywords} transcript={transcript} predict={predict} />
     </Box>
   );
 };

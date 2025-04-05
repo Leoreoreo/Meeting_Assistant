@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, TextField, Typography, Button } from '@mui/material';
+import { Box, TextField, Typography, Button, Paper } from '@mui/material';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { transcriptData } from '../data/videotranscript';
 
@@ -72,72 +72,88 @@ const Transcript = ({ setTranscript }) => {
   }
 
   return (
-    <Box sx={{ display: 'flex', height: "40vh", flexDirection: 'row', padding: 2, borderTop: '1px solid #ddd', backgroundColor: 'white', overflow: 'hidden' }}>
+    <Box sx={{ display: 'flex', height: "30vh", flexDirection: 'row', padding: 2, borderTop: '1px solid #ddd', backgroundColor: 'white', overflow: 'hidden' }}>
       
       {/* Video Section on the Left */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', padding: 1, backgroundColor: 'white', overflow: 'hidden', height: '95%' }}>
-        <Typography variant="h6" gutterBottom sx={{ color: 'black', textAlign: 'center' }}>Video Player</Typography>
-        {!videoSrc && (
-          <>
-            <input
-              accept="video/*"
-              type="file"
-              id="upload-video"
-              onChange={handleVideoUpload}
-              style={{ display: 'none' }}
-            />
-            <label htmlFor="upload-video">
-              <Button
-                variant="contained"
-                component="span"
-                sx={{
-                  backgroundColor: 'black',
-                  color: 'white',
-                  fontSize: '1rem',
-                  '&:hover': {
-                    backgroundColor: '#555', // grey-ish
-                  },
-                }}
-              >
-                Upload Video
-              </Button>
-            </label>
-          </>
-        )}
-        {videoSrc && (
-          <video ref={videoRef} controls width="100%" style={{ height: '100%', objectFit: 'contain' }}>
-            <source src={videoSrc} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        )}
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', padding: 1, backgroundColor: 'white', overflow: 'hidden', height: '80%' }}>
+        <Paper
+          sx={{
+            display: 'flex',
+            flexDirection: 'column', // Stack elements vertically
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 2,
+            backgroundColor: '#f5f5f5',
+            height: '20vh', // Optional: Adjust height as needed
+            overflowY: 'auto',
+          }}
+        >
+          <Typography variant="h6" gutterBottom sx={{ color: 'black', textAlign: 'center' }}>
+            Video Player
+          </Typography>
+
+          {!videoSrc && (
+            <>
+              <input
+                accept="video/*"
+                type="file"
+                id="upload-video"
+                onChange={handleVideoUpload}
+                style={{ display: 'none' }}
+              />
+              <label htmlFor="upload-video">
+                <Button
+                  variant="contained"
+                  component="span"
+                  sx={{
+                    backgroundColor: 'black',
+                    color: 'white',
+                    fontSize: '1rem',
+                    '&:hover': {
+                      backgroundColor: '#555', // grey-ish
+                    },
+                  }}
+                >
+                  Upload Video
+                </Button>
+              </label>
+            </>
+          )}
+
+          {videoSrc && (
+            <video ref={videoRef} controls width="100%" style={{ height: '100%', objectFit: 'contain' }}>
+              <source src={videoSrc} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+        </Paper>
       </Box>
   
       {/* Transcript Section on the Right */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', padding: 1, backgroundColor: 'white', overflow: 'hidden', height: '100%' }}>
-        <Typography variant="h6" gutterBottom sx={{ color: 'black', textAlign: 'center' }}>Real-time Transcript</Typography>
-        <TextField
-          value={currentTranscript}
-          multiline
-          rows={7}  // Shrink the height of the transcript field
-          fullWidth
-          variant="outlined"
-          InputProps={{
-            readOnly: true,
-          }}
-          sx={{
-            backgroundColor: 'white',
-            color: 'black',
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: '#ddd',
-              },
-            },
-            '& .MuiInputBase-input': {
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', padding: 1, backgroundColor: 'white', height: '80%' }}>
+        <Paper sx={{ padding: 2, backgroundColor: '#f5f5f5', height: '20vh', overflowY: 'auto' }}>
+          <Typography variant="h6" gutterBottom sx={{ color: 'black', textAlign: 'center' }}>Real-time Transcript</Typography>
+          <TextField
+            value={currentTranscript}
+            multiline
+            rows={3}  // Shrink the height of the transcript field
+            fullWidth
+            variant="outlined"
+            sx={{
+              backgroundColor: 'white',
               color: 'black',
-            },
-          }}
-          inputRef={transcriptRef}  // Reference to scroll the TextField
-        />
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#ddd',
+                },
+              },
+              '& .MuiInputBase-input': {
+                color: 'black',
+              },
+            }}
+            inputRef={transcriptRef}  // Reference to scroll the TextField
+          />
+        </Paper>
       </Box>
   
     </Box>

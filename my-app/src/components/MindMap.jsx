@@ -33,27 +33,30 @@ const MindMap = () => {
   }, [jsonIndex]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Box sx={{ display: 'flex', height: '80vh' }}>
-        <InputKeywords transcript={transcript} />
-        <Box sx={{ flex: 1, position: 'relative' }}>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            fitView
-            style={{
-              backgroundColor: 'white',
-              color: 'black',
-            }}
-          >
-            <Background color="#ddd" gap={16} />
-            <Controls />
-          </ReactFlow>
-        </Box>
-      </Box>
-      
-      <Transcript setTranscript={setTranscript} />
+<Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+  <Box sx={{ display: 'flex', height: '70vh' }}>  {/* Set the height of the first part */}
+    <InputKeywords transcript={transcript} />
+    <Box sx={{ flex: 1, position: 'relative' }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        fitView
+        style={{
+          backgroundColor: 'white',
+          color: 'black',
+        }}
+      >
+        <Background color="#ddd" gap={16} />
+        <Controls />
+      </ReactFlow>
     </Box>
+  </Box>
+
+  <Box sx={{ height: '30vh', overflowY: 'auto' }}>  {/* Set the height of the second part */}
+    <Transcript setTranscript={setTranscript} />
+  </Box>
+</Box>
+
   );
 };
 
