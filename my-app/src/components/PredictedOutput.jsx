@@ -58,16 +58,18 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
       {loading && <Typography color='black'>Loading...</Typography>}
       {error && <Typography color="error">{error}</Typography>}
       {prediction && (
-        <Paper 
+        <Paper
             sx={{
             display: 'flex',
-            flexDirection: 'column', // Stack the content vertically
-            justifyContent: 'center', // Center content vertically
-            alignItems: 'center', // Center content horizontally
+            flexDirection: 'column',
+            //justifyContent: 'center', // Remove or adjust if not needed
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            paddingX: 2,
             backgroundColor: 'rgb(205, 163, 250)',
-            maxHeight: '15vh',
-            overflowY: 'auto',
-            textAlign: 'center', // Ensure text is centered inside the Box
+            height: '20vh', // Keep the fixed height
+            overflowY: 'auto', // Keep the overflow for scrolling
+            textAlign: 'center',
             }}
         >
             <Button
@@ -75,23 +77,29 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
                 color="secondary"
                 onClick={handleSpeak}
                 sx={{
-                    display: 'flex',
                     backgroundColor: 'rgb(175, 116, 239)',
                     color: 'white',
-                    marginTop: 12,
+                    margin: 1,
+                    flexShrink: 0, // Prevent button from shrinking
                     '&:hover': {
-                        backgroundColor: 'rgb(133, 62, 208)',
+                    backgroundColor: 'rgb(133, 62, 208)',
                     },
                 }}
-                >
-                Speak
+            >
+            Speak
             </Button>
-            
-            <Typography color='white' sx={{ marginTop: 1 }}>
-                {prediction}
+
+            <Typography
+            color="white"
+            sx={{
+                flexGrow: 1, // Allow text to grow
+                overflowY: 'auto', // Enable scrolling for text
+            }}
+            >
+            {prediction}
             </Typography>
         </Paper>
-    )}
+        )}
     </Box>
   );
 };
