@@ -3,7 +3,7 @@ import { Box, Typography, Paper, Button } from '@mui/material';
 import { getOpenAIResponse } from '../data/callOpenai';
 
 const PredictedOutput = ({ keywords, transcript, predict }) => {
-  const [prediction, setPrediction] = useState('dummy');
+  const [prediction, setPrediction] = useState(' ');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -67,7 +67,7 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
             alignItems: 'center',
             paddingX: 2,
             backgroundColor: 'rgb(205, 163, 250)',
-            height: '20vh', // Keep the fixed height
+            height: '50vh', // Keep the fixed height
             overflowY: 'auto', // Keep the overflow for scrolling
             textAlign: 'center',
             }}

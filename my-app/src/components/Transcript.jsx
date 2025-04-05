@@ -73,10 +73,10 @@ const Transcript = ({ setTime, setTranscript }) => {
   }
 
   return (
-    <Box sx={{ display: 'flex', height: "30vh", flexDirection: 'row', padding: 2, borderTop: '1px solid #ddd', backgroundColor: 'white', overflow: 'hidden' }}>
+    <Box sx={{ display: 'flex', height: "30vh", padding: 2, borderTop: '1px solid #ddd', backgroundColor: 'white', overflow: 'hidden' }}>
       
       {/* Video Section on the Left */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '30%', padding: 1, backgroundColor: 'white', overflow: 'hidden', height: '80%' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '40%', padding: 1, backgroundColor: 'white', overflow: 'hidden', height: '80%' }}>
         <Paper
           sx={{
             display: 'flex',
@@ -128,7 +128,7 @@ const Transcript = ({ setTime, setTranscript }) => {
       </Box>
   
       {/* Transcript Section on the Right */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '70%', padding: 1, backgroundColor: 'white', height: '80%' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '60%', padding: 1, backgroundColor: 'white', height: '80%' }}>
         <Paper sx={{ padding: 2, backgroundColor: 'rgb(162, 191, 242)', height: '20vh' }}>
           <Typography variant="h4" gutterBottom sx={{ color: 'white', textAlign: 'center' }}>Transcript</Typography>
           <TextField

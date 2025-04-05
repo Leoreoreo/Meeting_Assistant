@@ -84,7 +84,7 @@ const MindMap = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', position: 'relative' }}>
       {/* Gradient Stripe with Logo */}
       <Box
         sx={{
@@ -94,6 +94,8 @@ const MindMap = () => {
           alignItems: 'center',
           justifyContent: 'center', // Center logo horizontally
           padding: '0 20px', // Add some padding
+          flex: 1,
+          position: 'relative'
         }}
       >
         <img
@@ -103,46 +105,52 @@ const MindMap = () => {
         />
       </Box>
 
-      {/* Map Content */}
-      <Box sx={{ display: 'flex', height: 'calc(80vh - 100px)', flex: 1 }}>
-        <InputKeywords transcript={transcript} />
-        <Box sx={{ flex: 1, position: 'relative'}}>
-          <ReactFlowProvider>
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              fitView
-              nodeTypes={nodeTypes}
-              panOnScroll
-              zoomOnScroll
-              zoomOnPinch
-              panOnDrag
-              onNodeClick={handleNodeClick}
-              style={{
-                backgroundColor: 'white',
-                background: 'white',
-                color: 'black',
-              }}
-            >
-              <Background color="#ddd" gap={16} />
-              <Controls />
-            </ReactFlow>
-          </ReactFlowProvider>
-          <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              Details (transcript):
-              <IconButton onClick={() => setOpen(false)} size="small">
-                <CloseIcon />
-              </IconButton>
-            </DialogTitle>
-            <DialogContent>
-              <Typography variant="body1">{selectedTranscript}</Typography>
-            </DialogContent>
-          </Dialog>
+      <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', flexGrow: 1 }}>
+        {/* Input Keywords Section */}
+        <Box sx={{ flex: 1}}>
+          <InputKeywords transcript={transcript} />
+        </Box>
+
+        {/* Map Content */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+          <Box sx={{ flex: 1, position: 'relative'}}>
+            <ReactFlowProvider>
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                fitView
+                nodeTypes={nodeTypes}
+                panOnScroll
+                zoomOnScroll
+                zoomOnPinch
+                panOnDrag
+                onNodeClick={handleNodeClick}
+                style={{
+                  backgroundColor: 'white',
+                  background: 'white',
+                  color: 'black',
+                }}
+              >
+                <Background color="#ddd" gap={16} />
+                <Controls />
+              </ReactFlow>
+            </ReactFlowProvider>
+            <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
+              <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                Details (transcript):
+                <IconButton onClick={() => setOpen(false)} size="small">
+                  <CloseIcon />
+                </IconButton>
+              </DialogTitle>
+              <DialogContent>
+                <Typography variant="body1">{selectedTranscript}</Typography>
+              </DialogContent>
+            </Dialog>
+          </Box>
+          {/* Transcript Section */}
+          <Transcript setTime={setTime} setTranscript={setTranscript} />
         </Box>
       </Box>
-
-      <Transcript setTime={setTime} setTranscript={setTranscript} />
     </Box>
   );
 };

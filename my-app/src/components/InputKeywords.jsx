@@ -70,7 +70,7 @@ const InputKeywords = ({ transcript }) => {
           flexDirection: 'column',
           padding: 2,
           backgroundColor: 'rgb(162, 191, 242)',
-          height: '35px',  // Fixed height
+          height: '50px',  // Fixed height
           overflowY: 'auto',  // Vertical scroll when the content overflows
           borderRadius: '8px',  // Optional: rounded corners for Paper
         }}
