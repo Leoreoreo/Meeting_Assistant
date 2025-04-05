@@ -1,5 +1,7 @@
 import { Box } from "@mui/material";
 import MindMap from "./components/MindMap";
+import React from "react";
+
 
 function App() {
   return (

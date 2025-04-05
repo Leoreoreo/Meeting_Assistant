@@ -6,6 +6,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import InputKeywords from './InputKeywords';
 import Transcript from './Transcript';
 
+
 const MindMap = () => {
   // Dummy nodes and edges
   const [nodes, setNodes] = useState([

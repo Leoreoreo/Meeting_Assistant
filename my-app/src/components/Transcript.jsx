@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, TextField, Typography, Button } from '@mui/material';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { transcriptData } from '../videotranscript';
+import { transcriptData } from '../data/videotranscript';
 
 const Transcript = () => {
   const {
@@ -65,12 +65,33 @@ const Transcript = () => {
     <Box sx={{ display: 'flex', flexDirection: 'row', padding: 2, borderTop: '1px solid #ddd', backgroundColor: 'white' }}>
       <Box sx={{ width: '50%', padding: 1, backgroundColor: 'white' }}>
         <Typography variant="h6" gutterBottom sx={{ color: 'black' }}>Video Player</Typography>
-        <input
-          accept="video/*"
-          type="file"
-          onChange={handleVideoUpload}
-          style={{ marginBottom: '10px', backgroundColor: 'white', border: '1px solid #ccc', padding: '8px' }}
-        />
+        {!videoSrc && (
+          <>
+            <input
+              accept="video/*"
+              type="file"
+              id="upload-video"
+              onChange={handleVideoUpload}
+              style={{ display: 'none' }}
+            />
+            <label htmlFor="upload-video">
+              <Button
+                variant="contained"
+                component="span"
+                sx={{
+                  backgroundColor: 'black',
+                  color: 'white',
+                  fontSize: '1rem',
+                  '&:hover': {
+                    backgroundColor: '#555', // grey-ish
+                  },
+                }}
+              >
+                Upload Video
+              </Button>
+            </label>
+          </>
+        )}
         {videoSrc && (
           <video ref={videoRef} controls width="100%">
             <source src={videoSrc} type="video/mp4" />
