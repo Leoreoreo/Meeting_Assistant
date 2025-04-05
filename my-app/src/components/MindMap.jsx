@@ -12,6 +12,7 @@ const MindMap = () => {
   ]);
   const [edges, setEdges] = useState([]);
   const [jsonIndex, setJsonIndex] = useState(0);
+  const [transcript, setTranscript] = useState(""); // State to hold transcript content
 
   // Spacebar handler
   useEffect(() => {
@@ -34,7 +35,7 @@ const MindMap = () => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Box sx={{ display: 'flex', height: '80vh' }}>
-        <InputKeywords />
+        <InputKeywords transcript={transcript} />
         <Box sx={{ flex: 1, position: 'relative' }}>
           <ReactFlow
             nodes={nodes}
@@ -51,7 +52,7 @@ const MindMap = () => {
         </Box>
       </Box>
       
-      <Transcript />
+      <Transcript setTranscript={setTranscript} />
     </Box>
   );
 };

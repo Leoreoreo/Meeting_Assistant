@@ -3,7 +3,7 @@ import { Box, TextField, Typography, Button } from '@mui/material';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { transcriptData } from '../data/videotranscript';
 
-const Transcript = () => {
+const Transcript = ({ setTranscript }) => {
   const {
     transcript,
     browserSupportsSpeechRecognition,
@@ -43,6 +43,7 @@ const Transcript = () => {
         .join(' ')
         .trim();
       setCurrentTranscript(visibleTranscript);
+      setTranscript(visibleTranscript);
     };
 
     video.addEventListener('play', handlePlay);

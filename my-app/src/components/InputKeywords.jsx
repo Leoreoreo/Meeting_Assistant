@@ -1,8 +1,8 @@
 // src/components/InputKeywords.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, TextField, Typography, Chip } from '@mui/material';
 
-const InputKeywords = () => {
+const InputKeywords = ({ transcript }) => {
   // State to store the user's input
   const [input, setInput] = useState('');
   
@@ -21,6 +21,10 @@ const InputKeywords = () => {
       setInput(''); // Clear the input field after adding
     }
   };
+
+  useEffect(() => {
+    console.log('Current Transcript:', transcript);
+  }, [transcript]);  // Log whenever the transcript changes
 
   return (
     <Box sx={{ width: '300px', padding: 2, borderRight: '1px solid #ddd', backgroundColor: 'white'}}>
