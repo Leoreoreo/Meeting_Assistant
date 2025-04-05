@@ -76,7 +76,7 @@ const Transcript = ({ setTime, setTranscript }) => {
     <Box sx={{ display: 'flex', height: "30vh", flexDirection: 'row', padding: 2, borderTop: '1px solid #ddd', backgroundColor: 'white', overflow: 'hidden' }}>
       
       {/* Video Section on the Left */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', padding: 1, backgroundColor: 'white', overflow: 'hidden', height: '80%' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '30%', padding: 1, backgroundColor: 'white', overflow: 'hidden', height: '80%' }}>
         <Paper
           sx={{
             display: 'flex',
@@ -84,7 +84,7 @@ const Transcript = ({ setTime, setTranscript }) => {
             justifyContent: 'center',
             alignItems: 'center',
             padding: 2,
-            backgroundColor: '#f5f5f5',
+            backgroundColor: 'rgb(162, 191, 242)',
             height: '20vh', // Optional: Adjust height as needed
             overflowY: 'auto',
           }}
@@ -104,11 +104,11 @@ const Transcript = ({ setTime, setTranscript }) => {
                   variant="contained"
                   component="span"
                   sx={{
-                    backgroundColor: 'black',
+                    backgroundColor: 'rgb(175, 116, 239)',
                     color: 'white',
                     fontSize: '1rem',
                     '&:hover': {
-                      backgroundColor: '#555', // grey-ish
+                      backgroundColor: 'rgb(133, 62, 208)',
                     },
                   }}
                 >
@@ -128,21 +128,21 @@ const Transcript = ({ setTime, setTranscript }) => {
       </Box>
   
       {/* Transcript Section on the Right */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '50%', padding: 1, backgroundColor: 'white', height: '80%' }}>
-        <Paper sx={{ padding: 2, backgroundColor: '#f5f5f5', height: '20vh' }}>
-          <Typography variant="h6" gutterBottom sx={{ color: 'black', textAlign: 'center' }}>Transcript</Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '70%', padding: 1, backgroundColor: 'white', height: '80%' }}>
+        <Paper sx={{ padding: 2, backgroundColor: 'rgb(162, 191, 242)', height: '20vh' }}>
+          <Typography variant="h4" gutterBottom sx={{ color: 'white', textAlign: 'center' }}>Transcript</Typography>
           <TextField
             value={currentTranscript}
             multiline
-            rows={2}  // Shrink the height of the transcript field
+            rows={2.75}  // Shrink the height of the transcript field
             fullWidth
             variant="outlined"
             sx={{
-              backgroundColor: 'white',
+              backgroundColor: 'rgb(174, 204, 255)',
               color: 'black',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: '#ddd',
+                  borderColor: 'rgb(253, 253, 253)',
                 },
               },
               '& .MuiInputBase-input': {

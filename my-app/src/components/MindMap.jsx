@@ -12,20 +12,39 @@ import jsonData from '../data/nodesAndEdges.json';
 // Custom node with right-side handle
 const RightHandleNode = ({ data }) => {
   return (
-    <div style={{
-      padding: 10,
-      border: '1px solid #ccc',
-      borderRadius: 8,
-      background: '#fff',
-      minWidth: 100,
-      textAlign: 'center'
-    }}>
+    <div
+      style={{
+        padding: '12px 16px',
+        border: '1px solid #ccc',
+        borderRadius: 12,
+        background: 'rgb(208, 170, 248)',
+        minWidth: 120,
+        textAlign: 'center',
+        fontWeight: 900,
+        color: 'white',
+        fontSize: '0.95rem',
+        boxShadow: '0 1px 3px rgb(162, 191, 242)',
+        transition: 'all 0.2s ease-in-out',
+        cursor: 'pointer',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = '0 4px 12px rgb(162, 191, 242)';
+        e.currentTarget.style.background = 'rgb(175, 116, 239)';
+        e.currentTarget.style.transform = 'scale(1.03)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = '0 1px 3px rgb(162, 191, 242)';
+        e.currentTarget.style.background = 'rgb(208, 170, 248)';
+        e.currentTarget.style.transform = 'scale(1)';
+      }}
+    >
       {data.label}
       <Handle type="source" position={Position.Right} />
       <Handle type="target" position={Position.Left} />
     </div>
   );
 };
+
 
 const nodeTypes = {
   rightHandle: RightHandleNode,
@@ -67,18 +86,42 @@ const MindMap = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Box sx={{ display: 'flex', height: '80vh' }}>
+      {/* Gradient Stripe with Logo */}
+      <Box
+        sx={{
+          height: '50px', // Adjust height as needed
+          background: 'linear-gradient(to right,rgb(133, 62, 208),rgb(53, 109, 207))', // Gradient
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center', // Center logo horizontally
+          padding: '0 20px', // Add some padding
+        }}
+      >
+        <img
+          src="src/assets/MindEcho.svg" // Replace with your logo path
+          alt="Logo"
+          style={{ height: '80px', width: '200px' }} // Adjust logo size
+        />
+      </Box>
+
+      {/* Map Content */}
+      <Box sx={{ display: 'flex', height: 'calc(80vh - 100px)', flex: 1 }}>
         <InputKeywords transcript={transcript} />
-        <Box sx={{ flex: 1, position: 'relative' }}>
+        <Box sx={{ flex: 1, position: 'relative'}}>
           <ReactFlowProvider>
             <ReactFlow
               nodes={nodes}
               edges={edges}
               fitView
               nodeTypes={nodeTypes}
+              panOnScroll
+              zoomOnScroll
+              zoomOnPinch
+              panOnDrag
               onNodeClick={handleNodeClick}
               style={{
                 backgroundColor: 'white',
+                background: 'white',
                 color: 'black',
               }}
             >
@@ -88,7 +131,7 @@ const MindMap = () => {
           </ReactFlowProvider>
           <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
             <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              Transcript
+              Details (transcript):
               <IconButton onClick={() => setOpen(false)} size="small">
                 <CloseIcon />
               </IconButton>

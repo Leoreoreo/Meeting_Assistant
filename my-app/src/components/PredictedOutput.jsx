@@ -1,6 +1,5 @@
 // src/components/PredictedOutput.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Box, Typography, Paper } from '@mui/material';
 import { getOpenAIResponse } from '../data/callOpenai';
 
@@ -47,13 +46,13 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
   }, [predict]);
 
   return (
-    <Box sx={{ padding: 2, marginTop: 2 }}>
+    <Box sx={{ padding: 0, marginTop: 2 }}>
         {loading && <Typography>Loading...</Typography>}
         {error && <Typography color="error">{error}</Typography>}
         {prediction && (
-            <Paper sx={{ padding: 2, backgroundColor: '#f5f5f5', height: '20vh', overflowY: 'auto' }}>
-            <Typography variant="h6">User's View:</Typography>
-            <Typography>{prediction}</Typography>
+            <Paper sx={{ paddingX: 2, backgroundColor: 'rgb(205, 163, 250)', height: '15vh', overflowY: 'auto' }}>
+            <Typography variant="h6" color='white'>I want to say:</Typography>
+            <Typography color='white'>{prediction}</Typography>
             </Paper>
         )}
     </Box>

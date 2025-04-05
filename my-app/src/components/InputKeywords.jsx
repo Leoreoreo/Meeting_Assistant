@@ -65,8 +65,8 @@ const InputKeywords = ({ transcript }) => {
           display: 'flex',
           flexDirection: 'column',
           padding: 2,
-          backgroundColor: '#f5f5f5',
-          height: '15vh',  // Fixed height
+          backgroundColor: 'rgb(162, 191, 242)',
+          height: '35px',  // Fixed height
           overflowY: 'auto',  // Vertical scroll when the content overflows
           borderRadius: '8px',  // Optional: rounded corners for Paper
         }}
@@ -86,10 +86,11 @@ const InputKeywords = ({ transcript }) => {
               label={keyword}
               variant="outlined"
               sx={{
-                backgroundColor: '#e0e0e0',
+                backgroundColor: 'white',
                 color: '#333',
                 border: '1px solid #ccc',
                 borderRadius: '16px',
+                boxShadow: 1,
                 padding: '6px 12px',
               }}
             />
@@ -105,16 +106,16 @@ const InputKeywords = ({ transcript }) => {
           color="primary"
           onClick={handlePredictClick}
           sx={{
-            backgroundColor: 'black',
+            backgroundColor: 'rgb(175, 116, 239)',
             color: 'white',
             fontSize: '1rem',
             '&:hover': {
-              backgroundColor: '#555', // grey-ish
+              backgroundColor: 'rgb(133, 62, 208)', // grey-ish
             },
           }}
           disabled={keywords.length === 0} // Disable if no keywords entered
         >
-          Predict
+          Organize my thoughts!
         </Button>
       </Box>
 
