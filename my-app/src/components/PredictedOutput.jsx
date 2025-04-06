@@ -18,7 +18,21 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
 
       try {
         // Use environment variable to access the API key
-        const prompt = `The user is currently in a meeting. Provided with the following keywords given by the user: ${keywords.join(', ')} and the transcript of the meeting: "${transcript}", imagine you are in user in the meeting right now, use first person to express your views. Limit your output within 3 sentences.`;
+        const prompt = `
+            Assume you are a user currently in a meeting. 
+            <Meeting transcript>: 
+            ${transcript}
+
+            You are to express your views based on the transcript above and the keywords provided.
+            <Keywords>: 
+            ${keywords.join(', ')}
+            
+            Note: 
+            1. Use the FIRST PERSON to express your views. 
+            2. Limit your output within 2-3 sentences.
+            3. Focus on more recent transcript lines.
+            4. Make sure your output is relevant to the keywords provided.
+        `;
         // console.log('Prompt:', prompt);
         const data = await getOpenAIResponse(prompt);
         setPrediction(data);
@@ -48,14 +62,14 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
   const handleSpeak = () => {
     if (prediction) {
       const speech = new SpeechSynthesisUtterance(prediction);
-      speech.lang = 'en-US';  // You can change the language here if needed
+      speech.lang = 'en-US';
+      speech.rate = 2;
       window.speechSynthesis.speak(speech);
     }
   };
 
   return (
     <Box sx={{ padding: 0, marginTop: 2 }}>
-      {loading && <Typography color='black'>Loading...</Typography>}
       {error && <Typography color="error">{error}</Typography>}
       {prediction && (
         <Paper
@@ -86,9 +100,9 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
                     },
                 }}
             >
-            Speak
+                Speak
             </Button>
-
+            {loading && <Typography color='white'>Loading...</Typography>}
             <Typography
             color="white"
             sx={{
