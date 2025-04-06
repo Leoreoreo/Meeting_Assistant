@@ -18,7 +18,7 @@ const PredictedOutput = ({ keywords, transcript, predict }) => {
 
       try {
         // Use environment variable to access the API key
-        const prompt = `Provided with the following keywords given by the user: ${keywords.join(', ')} and the transcript of the meeting: "${transcript}", imagine you are the user, use first person to express your views. Limit your output within 3 sentences.`;
+        const prompt = `The user is currently in a meeting. Provided with the following keywords given by the user: ${keywords.join(', ')} and the transcript of the meeting: "${transcript}", imagine you are in user in the meeting right now, use first person to express your views. Limit your output within 3 sentences.`;
         // console.log('Prompt:', prompt);
         const data = await getOpenAIResponse(prompt);
         setPrediction(data);
